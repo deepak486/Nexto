@@ -8,10 +8,10 @@ export default function Index() {
           <Card>
             <BlockStack gap="400">
               <Text as="h2" variant="headingMd">
-                Welcome to Nexto
+                Welcome to Nexto Home
               </Text>
               <Text as="p" variant="bodyMd">
-                This is your Shopify embedded app home page.
+                This is your Shopify embedded App Home page.
               </Text>
               <Button url="/app/additional" variant="primary">
                 Go to Additional Page

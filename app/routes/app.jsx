@@ -11,7 +11,7 @@ export const loader = async ({ request }) => {
   await authenticate.admin(request);
 
   return { apiKey: process.env.SHOPIFY_API_KEY || "" };
-};
+}; 
 
 export default function App() {
   const { apiKey } = useLoaderData();
@@ -22,11 +22,12 @@ export default function App() {
         <Link to="/app" rel="home">
           Home
         </Link>
+        <Link to="/app/invoices">Invoices</Link>
         <Link to="/app/additional">Additional page</Link>
         <Link to="/app/products">Add Products</Link> 
-      </NavMenu>
+      </NavMenu> 
       <Outlet />
-    </AppProvider>
+    </AppProvider> 
   );
 }
 

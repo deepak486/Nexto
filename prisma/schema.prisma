@@ -32,3 +32,10 @@ model Session {
   refreshToken        String?
   refreshTokenExpires DateTime?
 }
+
+model Invoice {
+  id        String   @id @default(cuid())
+  shop      String
+  orderId   String
+  createdAt DateTime @default(now())
+}

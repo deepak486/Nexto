@@ -11,7 +11,7 @@ export default function Index() {
                 Welcome to Nexto Home
               </Text>
               <Text as="p" variant="bodyMd">
-                This is your Shopify embedded App Home page.
+                This is Nexto Shopify embedded App Home page.....!!!
               </Text>
               <Button url="/app/additional" variant="primary">
                 Go to Additional Page

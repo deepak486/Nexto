@@ -21,10 +21,12 @@ export default function App() {
       <NavMenu>
         <Link to="/app" rel="home">
           Home
-        </Link>
+        </Link> 
         <Link to="/app/invoices">Invoices</Link>
-        <Link to="/app/additional">Additional page</Link>
-        <Link to="/app/products">Add Products</Link> 
+         <Link to="/app/invoice-settings">Settings</Link>
+        <Link to="/app/instructions">Instructions</Link> 
+        <Link to="/app/support">Support</Link> 
+        {/* <Link to="/app/products">Add Products</Link>  */}
       </NavMenu> 
       <Outlet />
     </AppProvider> 

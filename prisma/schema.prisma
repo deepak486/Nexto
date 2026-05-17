@@ -34,8 +34,27 @@ model Session {
 }
 
 model Invoice {
-  id        String   @id @default(cuid())
-  shop      String
-  orderId   String
-  createdAt DateTime @default(now())
+  id          String   @id @default(cuid())
+  shop        String?
+  orderId     String?
+  orderName   String?   @default("")
+  orderDate   DateTime?
+  status      String?   @default("")
+  subtotal    String?   @default("")
+  tax         String?   @default("")
+  total       String?   @default("")
+  currency    String?   @default("")
+  shipName    String?   @default("")
+  shipAddress String?   @default("")
+  lineItems   Json?     @default("[]")
+  createdAt   DateTime  @default(now())
+}  
+
+model AppSettings {
+  id            String   @id @default(cuid())
+  shop          String   @unique
+  invoiceTheme   String   @default("classic")
+  themeColor     String   @default("#1A73E8")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 }

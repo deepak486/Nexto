@@ -33,12 +33,14 @@
     "@shopify/polaris": "^12.0.0",
     "@shopify/shopify-app-remix": "^4.1.0",
     "@shopify/shopify-app-session-storage-prisma": "^8.0.0",
+    "dayjs": "^1.11.21",
     "isbot": "^5.1.0",
     "nodemailer": "^8.0.7",
     "prisma": "^6.2.1",
     "puppeteer-core": "^25.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "sanitize-html": "^2.17.5",
     "vite-tsconfig-paths": "^5.0.1"
   },
   "devDependencies": {

@@ -28,8 +28,8 @@ export function renderModernInvoice(invoice, order, settings) {
   return `
   <html>
     <body style="margin:0;padding:40px;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#0f172a;">
-      <div style="margin:0 auto; margin-bottom:30px; border: 1px solid; border-radius:32px;padding:1px;">
-        <div style="background:#f8fafc;border-radius:30px;overflow:hidden;">
+      <div style="margin:0 auto; margin-bottom:30px; border: 1px solid; border-radius:8px;padding:1px;">
+        <div style="background:#f8fafc;border-radius:8px;overflow:hidden;">
 
           <!-- Top gradient bar -->
           <div style="padding:26px 32px 22px;

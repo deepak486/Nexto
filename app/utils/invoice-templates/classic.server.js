@@ -28,7 +28,7 @@ export function renderClassicInvoice(invoice, order, settings) {
   return `
   <html>
     <body style="margin:0;padding:40px;background:#f3f4f6;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,system-ui,sans-serif;color:#111827;">
-      <div style="margin:0 auto; margin-bottom:50px; background:#ffffff;border-radius:20px;box-shadow:0 18px 45px rgba(15,23,42,0.16);overflow:hidden;">
+      <div style="margin:0 auto; margin-bottom:50px; background:#ffffff;border-radius:8px;box-shadow:0 18px 45px rgba(15,23,42,0.16);overflow:hidden;">
         <!-- Top header -->
         <div style="padding:32px 40px 12px;border-bottom:1px solid #e5e7eb;">
           <h1 style="margin:0 0 12px;font-size:28px;font-weight:600;">Invoice</h1>

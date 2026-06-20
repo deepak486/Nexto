@@ -192,7 +192,7 @@ export default function InvoiceSettingsPage() {
 
                   <BlockStack gap="100">
                     <Text as="p" variant="bodyMd" tone={actionData?.errors?.themeColor ? "critical" : "default"}>
-                      Theme color
+                      Theme Color
                     </Text>
                     
                     <Popover

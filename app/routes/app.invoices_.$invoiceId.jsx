@@ -45,52 +45,72 @@ export async function loader({ request, params }) {
     `#graphql
     query getOrder($id: ID!) {
       order(id: $id) {
-        id
+  id
+  name
+  createdAt
+  displayFinancialStatus
+  totalPriceSet {
+    shopMoney {
+      amount
+      currencyCode
+    }
+  }
+  subtotalPriceSet {
+    shopMoney {
+      amount
+      currencyCode
+    }
+  }
+  totalTaxSet {
+    shopMoney {
+      amount
+      currencyCode
+    }
+  }
+  taxLines {
+    title
+    rate
+    priceSet {
+      shopMoney {
+        amount
+        currencyCode
+      }
+    }
+  }
+  shippingAddress {
+    name
+    address1
+    address2
+    city
+    province
+    zip
+    country
+  }
+  lineItems(first: 50) {
+    edges {
+      node {
         name
-        createdAt
-        displayFinancialStatus
-        totalPriceSet {
+        quantity
+        originalUnitPriceSet {
           shopMoney {
             amount
             currencyCode
           }
         }
-        subtotalPriceSet {
-          shopMoney {
-            amount
-            currencyCode
-          }
-        }
-        totalTaxSet {
-          shopMoney {
-            amount
-            currencyCode
-          }
-        }
-        shippingAddress {
-          name
-          address1
-          address2
-          city
-          province
-          zip
-          country
-        }
-        lineItems(first: 50) {
-          edges {
-            node {
-              name
-              quantity
-              originalUnitPriceSet {
-                shopMoney {
-                  amount
-                  currencyCode
-                }
-              }
+        taxLines {
+          title
+          rate
+          priceSet {
+            shopMoney {
+              amount
+              currencyCode
             }
           }
         }
       }
+    }
+  }
+}
     }`,
     {
       variables: {

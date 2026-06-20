@@ -73,7 +73,7 @@ export default function AppHome() {
             <BlockStack gap="400">
               <BlockStack gap="100">
                 <Text as="h2" variant="headingLg">
-                  Invoice management for Shopify orders
+                  Invoice management for Shopify orders working
                 </Text>
                 <Text as="p" tone="subdued">
                   Create invoices from Shopify orders, store the invoice data in the app database, and download PDFs from the invoice detail page.

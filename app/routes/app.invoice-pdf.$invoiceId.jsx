@@ -2,6 +2,7 @@ import fs from "fs";
 import path from "path";
 import os from "os";
 import puppeteer from "puppeteer-core";
+import chromium from "@sparticuz/chromium";
 import prisma from "../db.server";
 
 function escapeHtml(value) {
@@ -13,7 +14,7 @@ function escapeHtml(value) {
     .replace(/'/g, "&#39;");
 }
 
-function getExecutablePath() {
+function getLocalExecutablePath() {
   const platform = os.platform();
 
   const candidates =
@@ -22,7 +23,13 @@ function getExecutablePath() {
           process.env.PUPPETEER_EXECUTABLE_PATH,
           "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
           "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
-          path.join(process.env.LOCALAPPDATA || "", "Google", "Chrome", "Application", "chrome.exe"),
+          path.join(
+            process.env.LOCALAPPDATA || "",
+            "Google",
+            "Chrome",
+            "Application",
+            "chrome.exe"
+          ),
           "C:\\Program Files\\Microsoft\\Edge\\Application\\msedge.exe",
           "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe",
         ]
@@ -37,9 +44,43 @@ function getExecutablePath() {
           "/usr/bin/google-chrome",
           "/usr/bin/chromium",
           "/usr/bin/chromium-browser",
+          "/snap/bin/chromium",
+          "/opt/google/chrome/chrome",
         ];
 
   return candidates.find((p) => p && fs.existsSync(p)) || null;
+}
+
+async function launchBrowser() {
+  const isProduction =
+    process.env.VERCEL === "1" ||
+    process.env.VERCEL_ENV === "production" ||
+    process.env.NODE_ENV === "production";
+
+  if (isProduction) {
+    const executablePath = await chromium.executablePath();
+
+    return puppeteer.launch({
+      args: [...chromium.args, "--no-sandbox", "--disable-setuid-sandbox"],
+      defaultViewport: chromium.defaultViewport,
+      executablePath,
+      headless: chromium.headless,
+    });
+  }
+
+  const executablePath = getLocalExecutablePath();
+
+  if (!executablePath) {
+    throw new Error(
+      "No local Chrome/Edge executable found. Set PUPPETEER_EXECUTABLE_PATH for local development."
+    );
+  }
+
+  return puppeteer.launch({
+    headless: true,
+    executablePath,
+    args: ["--no-sandbox", "--disable-setuid-sandbox"],
+  });
 }
 
 export async function loader({ params }) {
@@ -64,15 +105,6 @@ export async function loader({ params }) {
     console.log("invoice found:", invoice.id);
 
     const lineItems = Array.isArray(invoice.lineItems) ? invoice.lineItems : [];
-
-    const executablePath = getExecutablePath();
-    console.log("Using Chrome executablePath:", executablePath);
-
-    if (!executablePath) {
-      throw new Error(
-        "No Chrome/Edge executable found. Set PUPPETEER_EXECUTABLE_PATH to your browser path."
-      );
-    }
 
     const invoiceNumber = `${invoice.orderName || "invoice"}-INV`;
 
@@ -211,11 +243,7 @@ export async function loader({ params }) {
       </html>
     `;
 
-    browser = await puppeteer.launch({
-      headless: true,
-      executablePath,
-      args: ["--no-sandbox", "--disable-setuid-sandbox"],
-    });
+    browser = await launchBrowser();
 
     const page = await browser.newPage();
     await page.setContent(html, { waitUntil: "networkidle0" });
@@ -226,12 +254,13 @@ export async function loader({ params }) {
       margin: { top: "20px", right: "20px", bottom: "20px", left: "20px" },
     });
 
-   const cleanOrderName = String(invoice.orderName || "invoice")
-  .replace(/[\\/:*?"<>|]/g, "")
-  .trim();
+    const cleanOrderName = String(invoice.orderName || "invoice")
+      .replace(/[\\/:*?"<>|]/g, "")
+      .trim();
 
     const invoicePdfName = `${cleanOrderName}_INV.pdf`;
-    console.log('invoicePdfName: '+invoicePdfName);
+    console.log("invoicePdfName:", invoicePdfName);
+
     await browser.close();
     browser = null;
 
@@ -240,9 +269,9 @@ export async function loader({ params }) {
       headers: {
         "Content-Type": "application/pdf",
         "Content-Disposition": `attachment; filename="${invoicePdfName}"; filename*=UTF-8''${encodeURIComponent(invoicePdfName)}`,
+        "Cache-Control": "no-store",
       },
     });
-
   } catch (error) {
     console.error("PDF generation error:", error);
 
@@ -256,4 +285,4 @@ export async function loader({ params }) {
 
     throw new Response("PDF generation failed", { status: 500 });
   }
-}
+} 

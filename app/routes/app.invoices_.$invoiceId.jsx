@@ -733,7 +733,7 @@ export default function InvoiceDetail() {
 
   return (
     <Page
-      title="Invoice preview"
+      title="Invoice Preview"
       backAction={{ content: "Invoices", onAction: () => navigate("/app/invoices") }}
       primaryAction={{
         content: "Download PDF",

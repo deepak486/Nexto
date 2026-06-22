@@ -178,6 +178,16 @@ export async function action({ request }) {
   return redirect(".");
 }
 
+function getStatusTone(status) {
+  const normalized = String(status || "").toLowerCase();
+
+  if (["paid", "success", "completed"].includes(normalized)) return "success";
+  if (["pending", "draft", "processing"].includes(normalized)) return "attention";
+  if (["failed", "cancelled", "voided", "refunded"].includes(normalized)) return "critical";
+
+  return "info";
+}
+
 // ─── UI ───────────────────────────────────────────────────────────────────────
 export default function InvoicesRoute() {
   const { orders, invoices } = useLoaderData();
@@ -219,7 +229,7 @@ export default function InvoicesRoute() {
                       {order.totalPriceSet?.shopMoney?.currencyCode}
                     </IndexTable.Cell>
                     <IndexTable.Cell>
-                      <Badge>{order.displayFinancialStatus}</Badge>
+                      <Badge tone={getStatusTone(order.status)}>{order.displayFinancialStatus}</Badge>
                     </IndexTable.Cell>
                     <IndexTable.Cell>
                       {existingInvoice ? (

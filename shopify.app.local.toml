@@ -12,13 +12,17 @@ dev_store_url = "intimelle25.myshopify.com"
 [webhooks]
 api_version = "2026-01"
 
-  [[webhooks.subscriptions]]
-  topics = [ "app/scopes_update" ]
-  uri = "/webhooks/app/scopes_update"
+[[webhooks.subscriptions]]
+topics = ["app/scopes_update"]
+uri = "/webhooks/app/scopes_update"
 
-  [[webhooks.subscriptions]]
-  topics = [ "app/uninstalled" ]
-  uri = "/webhooks/app/uninstalled"
+[[webhooks.subscriptions]]
+topics = ["app/uninstalled"]
+uri = "/webhooks/app/uninstalled"
+
+[[webhooks.subscriptions]]
+compliance_topics = ["customers/data_request", "customers/redact", "shop/redact"]
+uri = "/webhooks" 
 
 [access_scopes]
 scopes = "read_customers,read_metaobjects,read_orders,write_customers,write_metaobjects,write_orders,write_products"
